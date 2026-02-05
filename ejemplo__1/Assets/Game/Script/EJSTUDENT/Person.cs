@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class Person
 {
-    private string nameP;
-    private string mailP;
-    private int ageP;
+   private string nameP;
+   private string mailP;
+   private int ageP;
 
     public Person()
     {
