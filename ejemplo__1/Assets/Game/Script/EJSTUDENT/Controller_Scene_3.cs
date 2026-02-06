@@ -13,6 +13,7 @@ public class Controller_Scene_3 : MonoBehaviour
     public TMP_InputField tcourseS;
     public TMP_InputField tcodeS;
     public TextMeshProUGUI studentsText;
+    public TextMeshProUGUI panelObject; 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,9 +30,9 @@ public class Controller_Scene_3 : MonoBehaviour
 
     public void AddStudent()
     {
-        Student student = new Student(tnameS.text, tmailS.text, int.Parse(tageS.text), tcourseS.text, tcodeS.text);
-        list_students.Add(student);
-        Debug.Log("Student Added: " + student.NameP + ", " + student.MailP + ", " + student.AgeP + ", " + student.CourseS + ", " + student.CodeS);
+        Student students = new Student (tnameS.text, tmailS.text, int.Parse(tageS.text), tcourseS.text, tcodeS.text);
+        list_students.Add(students);
+        Debug.Log("Student Added: " + students.NameP + ", " + students.MailP + ", " + students.AgeP + ", " + students.CourseS + ", " + students.CodeS);
     }
 
 
@@ -47,13 +48,49 @@ public class Controller_Scene_3 : MonoBehaviour
 
     public void SaveStudentsToJson()
     {
-        studentListWrapped wrapper = new studentListWrapped(list_students);
+       List<StudentDTO> dtoList = new List<StudentDTO>();
+        foreach (Student student in list_students)
+        {
+            StudentDTO dto = new StudentDTO
+            {
+                nameP = student.NameP,
+                mailP = student.MailP,
+                ageP = student.AgeP,
+                courseS = student.CourseS,
+                codeS = student.CodeS
+            };
+            dtoList.Add(dto);
+        }
+        studentListWrapped wrapper = new studentListWrapped(dtoList);
+        wrapper.students = dtoList;
         string json = JsonUtility.ToJson(wrapper, true);
-        string path = Path.Combine(Application.persistentDataPath, "students.json");
+        string path = Application.persistentDataPath + "/students.json";
         File.WriteAllText(path, json);
         Debug.Log("Students saved to: " + path);
     }
 
+    public void LoadStudentsFromJson()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "students.json");
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+
+            studentListWrapped wrapper = JsonUtility.FromJson<studentListWrapped>(json);
+
+            list_students.Clear();
+
+            foreach (StudentDTO dto in wrapper.students)
+            {
+                Student s = new Student(dto.nameP, dto.mailP, dto.ageP, dto.courseS, dto.codeS);
+                list_students.Add(s);
+            }
+
+            PrintStudentsPanel();
+          
+        }
+    }
 
 
 }
