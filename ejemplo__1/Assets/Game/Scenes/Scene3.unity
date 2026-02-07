@@ -727,7 +727,7 @@ MonoBehaviour:
   tcourseS: {fileID: 1368738850}
   tcodeS: {fileID: 979104783}
   studentsText: {fileID: 2126074330}
-  studentsText2: {fileID: 2126074330}
+  panelObject: {fileID: 0}
 --- !u!4 &433453021
 Transform:
   m_ObjectHideFlags: 0
