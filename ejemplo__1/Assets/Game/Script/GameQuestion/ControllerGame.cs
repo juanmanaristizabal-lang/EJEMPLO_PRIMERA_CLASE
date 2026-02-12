@@ -12,6 +12,9 @@ public class ControllerGame : MonoBehaviour
     public TextMeshProUGUI option2Text;
     public TextMeshProUGUI option3Text;
     public TextMeshProUGUI option4Text;
+    public TextMeshProUGUI correctAnswerText;
+    public TextMeshProUGUI versiculoText;
+    public TextMeshProUGUI dificultadText;
 
 
     List<MultipleQuestion> multipleQuestions = new List<MultipleQuestion>();
@@ -44,8 +47,10 @@ public class ControllerGame : MonoBehaviour
         foreach (string line in lines)
         {
             string[] parts = line.Split('-');
+            if (parts.Length >= 8)
+            {
 
-            MultipleQuestion multipleQ = new MultipleQuestion(
+                MultipleQuestion multipleQ = new MultipleQuestion(
                 parts[0],
                 parts[1],
                 parts[2],
@@ -54,11 +59,12 @@ public class ControllerGame : MonoBehaviour
                 parts[5],
                 parts[6],
                 parts[7]
-           
+
                 );
 
-            multipleQuestions.Add(multipleQ);
+                multipleQuestions.Add(multipleQ);
+            }
+
         }
-       
     }
-        }
+    }
