@@ -19,6 +19,8 @@ public class ControllerGame : MonoBehaviour
 
     List<MultipleQuestion> multipleQuestions = new List<MultipleQuestion>();
 
+    int currentQuestion = 0;
+
 
     void Start()
     {
@@ -67,4 +69,61 @@ public class ControllerGame : MonoBehaviour
 
         }
     }
+
+   
+    void checkAnswer(string selectedOption)
+    {
+        MultipleQuestion question = multipleQuestions[currentQuestion];
+        if (selectedOption.Trim() == question.Answer.Trim())
+        {
+            correctAnswerText.text = "Correct0!";
+        }
+        else
+        {
+            correctAnswerText.text = "incorrecto";
+        }
+        versiculoText.text = "Versiculo: " + question.Versiculo;
+        dificultadText .text = "Dificultad: " + question.Dificultty;
     }
+    public void Option1Selected()
+    {
+        checkAnswer(option1Text.text);
+    }
+
+    public void Option2Selected()
+    {
+        checkAnswer(option2Text.text);
+    }
+    public void Option3Selected()
+    {
+        checkAnswer(option3Text.text);
+    }
+
+    public void Option4Selected()
+    {
+        checkAnswer(option4Text.text);
+    }
+
+    public void nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < multipleQuestions.Count)
+        {
+            MultipleQuestion question = multipleQuestions[currentQuestion];
+            questionText.text = question.Question;
+            option1Text.text = question.Option1;
+            option2Text.text = question.Option2;
+            option3Text.text = question.Option3;
+            option4Text.text = question.Option4;
+            correctAnswerText.text = "";
+            versiculoText.text = "";
+            dificultadText.text = "";
+        }
+        else
+        {
+            Debug.Log("No hay mas preguntas.");  
+        }
+
+    }
+
+
+}
