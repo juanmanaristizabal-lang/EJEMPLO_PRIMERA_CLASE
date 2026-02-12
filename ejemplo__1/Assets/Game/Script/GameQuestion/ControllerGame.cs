@@ -15,6 +15,7 @@ public class ControllerGame : MonoBehaviour
     public TextMeshProUGUI correctAnswerText;
     public TextMeshProUGUI versiculoText;
     public TextMeshProUGUI dificultadText;
+    public GameObject PanelResultado;
 
 
     List<MultipleQuestion> multipleQuestions = new List<MultipleQuestion>();
@@ -32,6 +33,8 @@ public class ControllerGame : MonoBehaviour
         option2Text.text = question.Option2;
         option3Text.text = question.Option3;
         option4Text.text = question.Option4;
+
+        PanelResultado.SetActive(false);
 
     }
 
@@ -74,9 +77,12 @@ public class ControllerGame : MonoBehaviour
     void checkAnswer(string selectedOption)
     {
         MultipleQuestion question = multipleQuestions[currentQuestion];
+
+        PanelResultado.SetActive(true);
+
         if (selectedOption.Trim() == question.Answer.Trim())
         {
-            correctAnswerText.text = "Correct0!";
+            correctAnswerText.text = "Correcto!";
         }
         else
         {
@@ -117,12 +123,19 @@ public class ControllerGame : MonoBehaviour
             correctAnswerText.text = "";
             versiculoText.text = "";
             dificultadText.text = "";
+
+            PanelResultado.SetActive(false); 
         }
         else
         {
             Debug.Log("No hay mas preguntas.");  
         }
 
+    }
+
+    public void closePanel ()
+    {
+        PanelResultado.SetActive(false);
     }
 
 
