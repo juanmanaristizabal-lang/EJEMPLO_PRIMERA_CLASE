@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using System.Linq;  
 
 public class ControllerGame : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class ControllerGame : MonoBehaviour
     void Start()
     {
         LoadMultipleQuestions();
+
+        multipleQuestions = multipleQuestions.OrderBy(q => Random.value).ToList();
 
         MultipleQuestion question = multipleQuestions[0];
         questionText.text = question.Question;
