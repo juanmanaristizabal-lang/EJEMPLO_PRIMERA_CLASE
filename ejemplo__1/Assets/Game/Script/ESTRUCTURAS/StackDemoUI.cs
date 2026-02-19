@@ -21,6 +21,8 @@ public class StackDemoUI : MonoBehaviour
 
     public void Push()
     {
+       
+
         string idVehiculo = Vehiculo.text.Trim();
         string marca = Marca.text.Trim();
         string modelo = Modelo.text.Trim();
@@ -28,6 +30,8 @@ public class StackDemoUI : MonoBehaviour
         int puertas = int.Parse(NumeroPuertas.text.Trim());
 
         Carro nuevo = new Carro(idVehiculo,marca,modelo,placa,puertas);
+        stack.Push(nuevo);
+        ShowStack();
     }
 
     public void Pop()

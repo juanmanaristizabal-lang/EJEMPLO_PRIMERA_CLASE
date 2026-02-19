@@ -33,14 +33,10 @@ public class QueueDemoUI : MonoBehaviour
 
         Carro nuevo = new Carro(id,marca,modelo,placa,puertas);
         queue.Enqueue(nuevo);
-        showQueue();
+        ShowQueue();
     }
 
-    private void showQueue()
-    {
-        throw new NotImplementedException();
-    }
-
+    
     public void Dequeue()
     {
         if (queue.Count == 0) return;

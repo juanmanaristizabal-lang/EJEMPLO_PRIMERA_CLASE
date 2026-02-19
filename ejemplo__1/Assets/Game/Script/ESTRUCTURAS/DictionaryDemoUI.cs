@@ -30,6 +30,8 @@ public class DictionaryDemoUI : MonoBehaviour
         string placa = Placa.text.Trim();
         int puertas = int.Parse(NumeroPuertas.text);
 
+        if (string.IsNullOrEmpty(placa))
+            return;
         Carro nuevo = new Carro(id, marca, modelo, placa, puertas);
 
         dict[placa] = nuevo; // si existe, actualiza; si no, agrega     
@@ -39,13 +41,13 @@ public class DictionaryDemoUI : MonoBehaviour
 
     public void Get()
     {
-        string k = inputKey.text.Trim();
-        if (string.IsNullOrEmpty(k)) return;
+        string placa = inputKey.text.Trim();
+        if (string.IsNullOrEmpty(placa)) return;
 
-        if (dict.TryGetValue(k, out var v))
-            resultView.text = $"Encontrado: [{k}] = {v}";
+        if (dict.TryGetValue(placa, out Carro c))
+            resultView.text = $"Encontrado: {c.marca} {c.modelo} (Placa: {c.placa})";
         else
-            resultView.text = $"No existe la clave: {k}";
+            resultView.text = $"No se encontró el carro con placa: {placa}";
     }
 
     public void Remove()
