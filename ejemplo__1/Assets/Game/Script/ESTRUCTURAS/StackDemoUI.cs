@@ -10,23 +10,31 @@ public class StackDemoUI : MonoBehaviour
     public TextMeshProUGUI stackView;
     public TextMeshProUGUI topView;
 
-    private Stack<string> stack = new Stack<string>();
+    [Header("Carro")]
+    public TMP_InputField Vehiculo;
+    public TMP_InputField Marca;
+    public TMP_InputField Modelo;
+    public TMP_InputField Placa;
+    public TMP_InputField NumeroPuertas;
+
+    private Stack<Carro> stack = new Stack<Carro>();
 
     public void Push()
     {
-        string v = inputValue.text.Trim();
-        if (string.IsNullOrEmpty(v)) return;
+        string idVehiculo = Vehiculo.text.Trim();
+        string marca = Marca.text.Trim();
+        string modelo = Modelo.text.Trim();
+        string placa = Placa.text.Trim();
+        int puertas = int.Parse(NumeroPuertas.text.Trim());
 
-        stack.Push(v);
-        inputValue.text = "";
-        ShowStack();
+        Carro nuevo = new Carro(idVehiculo,marca,modelo,placa,puertas);
     }
 
     public void Pop()
     {
         if (stack.Count == 0) return;
 
-        string removed = stack.Pop();
+        Carro removed = stack.Pop();
         Debug.Log("POP: " + removed);
         ShowStack();
     }
@@ -39,13 +47,13 @@ public class StackDemoUI : MonoBehaviour
 
     private void ShowStack()
     {
-        topView.text = stack.Count > 0 ? $"TOP: {stack.Peek()}" : "TOP: (vacío)";
+        topView.text = stack.Count > 0 ? $"TOP: {stack.Peek().placa}" : "TOP: (vacío)";
 
         var sb = new StringBuilder();
         sb.AppendLine("PILA (Top → Bottom)");
 
-        foreach (var item in stack) 
-            sb.AppendLine("• " + item);
+        foreach (Carro c in stack)
+            sb.AppendLine($"• {c.placa} - {c.marca} {c.modelo}");
 
         stackView.text = sb.ToString();
     }

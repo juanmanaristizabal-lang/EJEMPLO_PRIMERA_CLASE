@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Windows;
+using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class DictionaryDemoUI : MonoBehaviour
 {
@@ -11,16 +13,27 @@ public class DictionaryDemoUI : MonoBehaviour
     public TextMeshProUGUI resultView;
     public TextMeshProUGUI dictView;
 
-    private Dictionary<string, string> dict = new Dictionary<string, string>();
+    [Header("Carro")]
+    public TMP_InputField Vehiculo;
+    public TMP_InputField Marca;
+    public TMP_InputField Modelo;
+    public TMP_InputField Placa;
+    public TMP_InputField NumeroPuertas;
+
+    private Dictionary<string, Carro> dict = new Dictionary<string, Carro>();
 
     public void AddOrUpdate()
     {
-        string k = inputKey.text.Trim();
-        string v = inputValue.text.Trim();
-        if (string.IsNullOrEmpty(k)) return;
+        string id = Vehiculo.text.Trim();
+        string marca = Marca.text.Trim();
+        string modelo = Modelo.text.Trim();
+        string placa = Placa.text.Trim();
+        int puertas = int.Parse(NumeroPuertas.text);
 
-        dict[k] = v; // si existe, actualiza; si no, agrega
-        resultView.text = $"Guardado: [{k}] = {v}";
+        Carro nuevo = new Carro(id, marca, modelo, placa, puertas);
+
+        dict[placa] = nuevo; // si existe, actualiza; si no, agrega     
+        resultView.text = $"Guardado: {placa}";
         ShowDictionary();
     }
 
@@ -55,11 +68,10 @@ public class DictionaryDemoUI : MonoBehaviour
     private void ShowDictionary()
     {
         var sb = new StringBuilder();
-        sb.AppendLine("DICCIONARIO (Clave → Valor)");
+        sb.AppendLine("DICCIONARIO (Placa → Carro)");
 
         foreach (var kv in dict)
-            sb.AppendLine($"• {kv.Key} → {kv.Value}");
-
+            sb.AppendLine($"• {kv.Key} → {kv.Value.marca} {kv.Value.modelo}");
         dictView.text = sb.ToString();
     }
 }

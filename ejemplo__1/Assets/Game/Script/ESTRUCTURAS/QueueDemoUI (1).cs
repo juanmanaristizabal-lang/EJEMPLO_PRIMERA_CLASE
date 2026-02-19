@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Windows;
+using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class QueueDemoUI : MonoBehaviour
 {
@@ -10,23 +13,39 @@ public class QueueDemoUI : MonoBehaviour
     public TextMeshProUGUI queueView;
     public TextMeshProUGUI frontView;
 
-    private Queue<string> queue = new Queue<string>();
+    [Header("Carro")]
+    public TMP_InputField Vehiculo;
+    public TMP_InputField Marca;
+    public TMP_InputField Modelo;
+    public TMP_InputField Placa;
+    public TMP_InputField NumeroPuertas;
+
+
+    private Queue<Carro> queue = new Queue<Carro>();
 
     public void Enqueue()
     {
-        string v = inputValue.text.Trim();
-        if (string.IsNullOrEmpty(v)) return;
+        string id = Vehiculo.text.Trim();
+        string marca = Marca.text.Trim();
+        string modelo = Modelo.text.Trim();
+        string placa = Placa.text.Trim();
+        int puertas = int.Parse(NumeroPuertas.text);
 
-        queue.Enqueue(v);
-        inputValue.text = "";
-        ShowQueue();
+        Carro nuevo = new Carro(id,marca,modelo,placa,puertas);
+        queue.Enqueue(nuevo);
+        showQueue();
+    }
+
+    private void showQueue()
+    {
+        throw new NotImplementedException();
     }
 
     public void Dequeue()
     {
         if (queue.Count == 0) return;
 
-        string served = queue.Dequeue();
+        Carro served = queue.Dequeue();
         Debug.Log("DEQUEUE: " + served);
         ShowQueue();
     }
@@ -44,8 +63,8 @@ public class QueueDemoUI : MonoBehaviour
         var sb = new StringBuilder();
         sb.AppendLine("COLA (Frente → Final)");
 
-        foreach (var item in queue)
-            sb.AppendLine("• " + item);
+        foreach (Carro c in queue)
+            sb.AppendLine($"• {c.placa} - {c.marca} {c.modelo}");
 
         queueView.text = sb.ToString();
     }
